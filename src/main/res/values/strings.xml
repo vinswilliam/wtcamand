@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">wtcamand</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="request_permission">Request premission to access camera</string>
+    <string name="camera_error">Camera Error</string>
+    <string name="intro_message">Using Camera</string>
+    <string name="picture">Picture</string>
+    <string name="description_info">Taking Picture</string>
+</resources>
