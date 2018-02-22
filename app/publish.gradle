@@ -3,7 +3,7 @@ apply plugin: 'maven-publish'
 publishing {
     publications {
         Production(MavenPublication) {
-            artifact("$buildDir/outputs/aar/payment-module-release.aar")
+            artifact("$buildDir/outputs/aar/camera-module-release.aar")
             groupId 'com.gvm.sdk'
             artifactId 'camera-module'
             version '0.1.0-beta'
@@ -22,7 +22,7 @@ publishing {
             }
         }
         Sandbox(MavenPublication) {
-            artifact("$buildDir/outputs/aar/corekit-development-release.aar")
+            artifact("$buildDir/outputs/aar/camera-module.aar")
             groupId 'com.gvm.sdk'
             artifactId 'camera-module'
             version '0.1.0-beta'
