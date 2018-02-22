@@ -1,60 +1,20 @@
-apply plugin: 'maven-publish'
-
-publishing {
-    publications {
-        Production(MavenPublication) {
-            artifact("$buildDir/outputs/aar/camera-module-release.aar")
-            groupId 'com.gvm.sdk'
-            artifactId 'camera-module'
-            version '0.1.0-beta'
-
-            //The publication doesn't know about our dependencies, so we have to manually add them to the pom
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-
-                //Iterate over the compile dependencies (we don't want the test ones), adding a <dependency> node for each
-                configurations.compile.allDependencies.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.group)
-                    dependencyNode.appendNode('artifactId', it.name)
-                    dependencyNode.appendNode('version', it.version)
-                }
-            }
-        }
-        Sandbox(MavenPublication) {
-            artifact("$buildDir/outputs/aar/camera-module.aar")
-            groupId 'com.gvm.sdk'
-            artifactId 'camera-module'
-            version '0.1.0-beta'
-
-            //The publication doesn't know about our dependencies, so we have to manually add them to the pom
-            pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-
-                //Iterate over the compile dependencies (we don't want the test ones), adding a <dependency> node for each
-                configurations.compile.allDependencies.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.group)
-                    dependencyNode.appendNode('artifactId', it.name)
-                    dependencyNode.appendNode('version', it.version)
-                }
-            }
-        }    }
-}
 bintray {
-    // Get Bintray credential from environment variable
-    user = System.getenv('BINTRAY_USER') // Get bintray User
-    key = System.getenv('BINTRAY_KEY') // Get bintray Secret Key
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
     configurations = ['archives']
     pkg {
-        repo = 'wtcamera'
+        repo = 'gvm'
         name = 'camera'
-        userOrg = 'vinswilliam'
+        userOrg = 'Global Visi Media'
         licenses = ['Apache-2.0']
         desc = 'Camera Module SDK'
-        websiteUrl = "https://womantalk.com"
-        publish = true
+        websiteUrl = 'https://womantalk.com'
+        vcsUrl = 'https://github.com/vinswilliam/wtcamand'
+        version {
+            name = '1.0.0-final'
+            desc = 'Camera Module 1.0.0 final'
+            released = new Date()
+            vcsTag = '1.0.0'
+        }
     }
-    publications = ['Production', 'Sandbox']
-
 }
