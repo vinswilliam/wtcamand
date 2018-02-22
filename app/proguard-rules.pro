@@ -21,6 +21,5 @@
 #-renamesourcefileattribute SourceFile
 
 -keepclassmembers class ** {
-    public static final <fields>;
-    public <methods>;
+    public *;
 }
