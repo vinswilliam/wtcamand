@@ -1,20 +1,85 @@
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+version '1.0.1'
+group 'com.gvm'
+
+def siteUrl = 'https://github.com/vinswilliam/wtcamand'
+def gitUrl = 'https://github.com/vinswilliam/wtcamand.git'
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                name 'camera'
+                description = 'Camera Module GVM'
+                url siteUrl
+                groupId this.group
+                artifactId "camera"
+                version this.version
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'vwilliam'
+                        name 'Vinsensius William'
+                        email 'vinsensius.william@gmail.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
 bintray {
     user = System.getenv('BINTRAY_USER')
     key = System.getenv('BINTRAY_KEY')
     configurations = ['archives']
+    override = true
     pkg {
         repo = 'gvm'
         name = 'camera'
-        userOrg = 'Global Visi Media'
         licenses = ['Apache-2.0']
-        desc = 'Camera Module SDK'
+        description = 'Camera Module SDK'
         websiteUrl = 'https://womantalk.com'
         vcsUrl = 'https://github.com/vinswilliam/wtcamand'
+        dryRun = false
+        publish = true
+        publicDownloadNumbers = true
         version {
-            name = '1.0.0-final'
-            desc = 'Camera Module 1.0.0 final'
+            name = this.version
+            desc = "Camera Module ${this.version}"
             released = new Date()
-            vcsTag = '1.0.0'
+            vcsTag = this.version
         }
     }
 }
